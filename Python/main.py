@@ -5,6 +5,3 @@ text = "Let's input your name: "
 name = input(text)
 
 Hello(name)
-
-
-
