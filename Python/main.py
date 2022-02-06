@@ -1,7 +1,2 @@
-def Hello():
-    print("Hello, World!")
-
-Hello()
-
-
-
+nums = [5,3,1,-5]
+print(sorted(nums))
