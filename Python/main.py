@@ -1,7 +1,10 @@
-def Hello():
-    print("Hello, World!")
+def Hello(name: str):
+    print(f"Hello, {name}")
 
-Hello()
+text = "Let's input your name: "
+name = input(text)
+
+Hello(name)
 
 
 
