@@ -13,3 +13,4 @@ class Dog:
     def roll_over(self):
         """Собака перекатывается по команде."""
         print(f"{self.name} is rolling out!")
+

@@ -1,7 +1,8 @@
 import defmodules as dm
 import dog
 
-if __name__ == '__main__':
+
+def main():
     persons = []
     while True:
         print("\nPlease input your name:")
@@ -25,3 +26,17 @@ if __name__ == '__main__':
     print(dm.create_person('Artem', 'Schukin', location='Lipetsk', age=21))
     my_dog = dog.Dog(name='keisy', age=3)
     my_dog.roll_over()
+
+    health = 100
+    finished = False
+    while not finished:
+        print('My health', health, 'Hit me!')
+        damage = int(input())
+        health -= damage
+        if health <= 0:
+            finished = True
+    print("You kill me!")
+
+
+if __name__ == '__main__':
+    main()
