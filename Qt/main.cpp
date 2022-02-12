@@ -6,8 +6,14 @@
 #include <clocale>
 #include <windows.h>
 #include <cmath>
+#include <string>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 const int arraySize = 10000;
+const int MAX_MONSTER_COUNT = 10;
+
 
 /*class Vector3D;
 
@@ -124,14 +130,77 @@ public:
     }
     ~Welcome() {
         delete [] m_data;
-        std::cout << "Реализация деструктора для класса Welcome!" << std::endl;
+//        std::cout << "Реализация деструктора для класса Welcome!" << std::endl;
     }
     void print() { std::cout << m_data << std::endl;}
 };
 
+// ----------------------- ZAD N 3 -----------------------------------
+
+class Monster {
+public:
+    enum MonsterType {
+        Dragon,
+        Goblin,
+        Ogre,
+        Orc,
+        Skeleton,
+        Troll,
+        Vampire,
+        Zombie,
+        MAX_MONSTER_TYPES = 8
+    };
+private:
+    MonsterType m_type;
+    std::string m_name;
+    int m_health;
+public:
+    Monster(Monster::MonsterType type, std::string name, int health = 100):
+        m_type{type}, m_name{name}, m_health{health} {}
+    std::string getTypeString() const {
+        switch (m_type) {
+        case 0: return "dragon ";
+        case 1: return "goblin ";
+        case 2: return "ogre ";
+        case 3: return "orc ";
+        case 4: return "skeleton ";
+        case 5: return "troll ";
+        case 6: return "vampire ";
+        case 7: return "zombie ";
+        case 8: return " ";
+        }
+        return "indefined type";
+    }
+    void print() const {
+        std::cout << m_name << " is the " << getTypeString() <<  "that has "
+                  << m_health << " health points." << std::endl;
+    }
+
+};
+
+class MonsterGenerator {
+public:
+    static int getRandomNumber(int min, int max) {
+        static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);
+        return static_cast<int>(rand() * fraction * (max - min +1) + min);
+    }
+    static Monster generateMonster() {
+        static const std::string s_names[] = {"Jack", "John", "Nick", "Keij", "Lilo", "Bobby"};
+        int rand_int = getRandomNumber(0, Monster::MAX_MONSTER_TYPES - 1);
+        int rand_health = getRandomNumber(0, 100);
+        int rand_name_id = getRandomNumber(0, 5);
+
+        return Monster(static_cast<Monster::MonsterType>(rand_int), s_names[rand_name_id], rand_health);
+    }
+};
+
+//----------------------------------------------------------------------------------------
+
 int main()
 {
+
     using namespace std;
+    srand(static_cast<unsigned int>(time(nullptr)));
     setlocale(LC_ALL, "PL_pl.UTF-8");
     SetConsoleCP(CP_UTF8);
     SetConsoleOutputCP(CP_UTF8);
@@ -164,6 +233,17 @@ int main()
     hello.print();
 
     cout << "Время выполнения кода: " << timer.elapsed() << endl;
+    cout << endl;
+
+    rand();
+
+    vector<Monster> TargetList;
+    for(int i = 0; i < MonsterGenerator::getRandomNumber(0, MAX_MONSTER_COUNT); i++) {
+        TargetList.push_back(MonsterGenerator::generateMonster());
+    }
+    for(const auto& monster: TargetList)
+        monster.print();
+
 
     return 0;
 }
