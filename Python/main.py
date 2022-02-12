@@ -1,7 +1,4 @@
-def Hello(name: str):
-    print(f"Hello, {name}")
 
-text = "Let's input your name: "
-name = input(text)
+nums = [5,3,1,-5]
+print(sorted(nums))
 
-Hello(name)
