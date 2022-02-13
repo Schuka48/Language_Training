@@ -10,12 +10,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string_view>
 
 const int arraySize = 10000;
 const int MAX_MONSTER_COUNT = 10;
 
+struct Student {
+    std::string name {};
+    int ball;
+};
 
-/*class Vector3D;
+struct Season {
+    std::string name{};
+    double averageTemperature {};
+};
+
+static std::array<Student, 8> arr {
+      { { "Albert", 3 },
+        { "Ben", 5 },
+        { "Christine", 2 },
+        {  "Dan", 8 },
+        { "Enchilada", 4 },
+        {  "Francis", 1 },
+        { "Greg", 3 },
+        { "Hagrid", 5 }
+      }
+};
+
+static std::array<Season, 4> seasons {
+    {
+        { "Spring", 285.0 },
+        { "Summer", 296.0 },
+        { "Fall", 288.0 },
+        { "Winter", 263.0 }
+    }
+};
+
+static auto func { [](const Season& a, const Season& b) {
+        return a.averageTemperature < b.averageTemperature;
+    }};
+
+class Vector3D;
 
 class Point3D {
     double m_x, m_y, m_z;
@@ -44,7 +79,7 @@ void Point3D::moveByVector(const Vector3D &v) {
     this->m_x = this->m_x + v.m_x;
     this->m_y = this->m_y + v.m_y;
     this->m_z = this->m_z + v.m_z;
-}*/
+}
 
 class Dollars {
     int m_dollars;
@@ -244,6 +279,20 @@ int main()
     for(const auto& monster: TargetList)
         monster.print();
 
+
+    auto bestStudent {std::max_element(arr.begin(), arr.end(), [](const Student& a, const Student& b) {
+        return a.ball < b.ball;
+    })
+    };
+    cout << "Best Student: " << bestStudent->name << " with "
+         << bestStudent->ball << " points" << endl;
+
+
+
+    std::sort(seasons.begin(), seasons.end(), func);
+
+    for (const auto& season: seasons)
+        std::cout << season.name << '\n';
 
     return 0;
 }
