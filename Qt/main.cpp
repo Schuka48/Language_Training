@@ -294,5 +294,29 @@ int main()
     for (const auto& season: seasons)
         std::cout << season.name << '\n';
 
+    std::cout <<  "search for: ";
+    std::string search_str {};
+    std::cin >> search_str;
+
+    std::array<std::string_view, 4> arr{"apple", "banana", "walnut", "lemon"};
+    auto found {std::find_if(arr.begin(), arr.end(), [&search_str] (std::string_view str) {
+            return (str.find(search_str) != std::string_view::npos);
+        })};
+    if(found == arr.end())
+        std::cout << "No nuts\n";
+    else
+        std::cout << "Found " << *found << std::endl;
+
+    int ammo = {10};
+
+    auto shoot {
+        [ammo] () mutable {
+            std::cout << --ammo << " shots left" << std::endl;
+        }
+    };
+    shoot();
+    shoot();
+    cout << "Ammo: " << ammo << std::endl;
+
     return 0;
 }
