@@ -27,7 +27,6 @@ def make_pizza(size, *toppings):
 
 #  Here we go to train decorators
 
-
 def get_bold(func):
     def wrapped():
         return "<b>" + func() + "</b>"
@@ -48,12 +47,35 @@ def get_hello():
     return "Hello, Artem!"
 
 
-print(get_hello())
+def my_decorator(func):
+    print("Default function")
+
+    def wrapper():
+        print("I'm function that has been returned by decorator")
+        func()
+
+    return wrapper
 
 
-def getTalk():
-    def innerfunc(letter='Hello'):
-        print(letter, __name__)
+@my_decorator
+def lazy_function():
+    print("zzzzzz ...")
 
-    return innerfunc
 
+def simple_decorator(func):
+    def wrapper(*args, **kwargs):
+        print("My args:", args)
+        print("My kwargs:", kwargs)
+        return func(*args, **kwargs)
+
+    return wrapper
+
+@simple_decorator
+def summ(*args, **kwargs):
+    summa: int = 0
+    for arg in args:
+        summa += arg
+    for key in kwargs:
+        print(key)
+
+    return summa

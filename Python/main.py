@@ -37,6 +37,8 @@ def main():
             finished = True
     print("You kill me!")
 
+    print(dm.summ(5, 3, Lipetsk='The best'))
+
 
 if __name__ == '__main__':
     main()
