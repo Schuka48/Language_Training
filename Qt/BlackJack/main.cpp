@@ -152,18 +152,28 @@ char getPlayerChoice()
     return choice;
 }
 
+bool getEndGame() {
+    std::cout << "(q) to exit, or (someone) to stand in the game: ";
+    char choice;
+    std::cin >> choice;
+    if (choice == 'q')
+        return true;
+    else
+        return false;
+}
+
 bool playBlackjack(Deck& deck)
 {
     int playerTotal = 0;
     int dealerTotal = 0;
 
     // Дилер получает одну карту
-//    dealerTotal += 
+    dealerTotal += deck.dealCard().getCardValue();
     std::cout << "The dealer is showing: " << dealerTotal << '\n';
 
     // Игрок получает две карты
-    playerTotal += getCardValue(*cardPtr++);
-    playerTotal += getCardValue(*cardPtr++);
+    playerTotal += deck.dealCard().getCardValue();
+    playerTotal += deck.dealCard().getCardValue();
 
     // Игрок начинает
     while (1)
@@ -173,17 +183,19 @@ bool playBlackjack(Deck& deck)
         if (choice == 's')
             break;
 
-        playerTotal += getCardValue(*cardPtr++);
+        playerTotal += deck.dealCard().getCardValue();
 
         // Смотрим, не проиграл ли игрок
-        if (playerTotal > 21)
+        if (playerTotal > 21) {
+            std::cout << "You have " << playerTotal << ", but it so mach :(" << std::endl;
             return false;
+        }
     }
 
     // Если игрок не проиграл (у него не больше 21 очка), тогда дилер получает карты до тех пор, пока у него в сумме будет не меньше 17 очков
     while (dealerTotal < 17)
     {
-        dealerTotal += getCardValue(*cardPtr++);
+        dealerTotal += deck.dealCard().getCardValue();
         std::cout << "The dealer now has: " << dealerTotal << '\n';
     }
 
@@ -198,18 +210,28 @@ int main()
 {
     srand(static_cast<unsigned>(time(nullptr)));
 
+   std::cout << "<<<<<<<<<<<<< Welcome to the BlackJack Game >>>>>>>>>>>>>" << "\n";
+
     Deck deck;
-    deck.printDeck();
-    deck.shuffleDeck();
-    deck.printDeck();
+//    deck.printDeck();
+    while(true) {
+        std::cout << "-------------------- New Round! --------------------" << "\n";
+        deck.shuffleDeck();
+        //    deck.printDeck();
 
-    std::cout << "The first card has value: " << deck.dealCard().getCardValue() << '\n';
-    std::cout << "The second card has value: " << deck.dealCard().getCardValue() << '\n';
+        //    std::cout << "The first card has value: " << deck.dealCard().getCardValue() << '\n';
+        //    std::cout << "The second card has value: " << deck.dealCard().getCardValue() << '\n';
 
-//    if (playBlackjack(deck))
-//        std::cout << "You win!\n";
-//    else
-//        std::cout << "You lose!\n";
+        if (playBlackjack(deck))
+            std::cout << "You win!\n";
+        else
+            std::cout << "You lose!\n";
+        std::cout << "-------------------- End of Round! --------------------" << "\n";
+        if(getEndGame())
+            break;
 
+
+    }
+    std::cout << "<<<<<<<<<<<<< GoodBye >>>>>>>>>>>>" << "\n";
     return 0;
 }
