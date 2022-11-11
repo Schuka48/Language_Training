@@ -1,0 +1,1 @@
+print(max(list(map(len, input().split('О')))))
