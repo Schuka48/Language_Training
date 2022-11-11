@@ -5,7 +5,7 @@ from enum import Enum
 import ssl
 import config
 import urllib.request
-from urllib.error import URLErrorfrom
+from urllib.error import URLError
 from json.decoder import JSONDecodeError
 import json
 
@@ -41,14 +41,15 @@ def get_weather(coordinates: Coordinates) -> Weather:
         longitude=coordinates.longitude, latitude=coordinates.latitude
     )
     weather = _parse_openweather_response(openweather_response)
+    return weather
 
 
 def _get_openweather_response(latitude: float, longitude: float) -> str:
     ssl._create_default_https_context = ssl._create_unverified_context
     url = config.OPENWEATHER_URL.format(latitude=latitude, longitude=longitude)
     try:
-        urllib.request.urlopen(url).read()
-    except URLERROR:
+        return urllib.request.urlopen(url).read()
+    except URLError:
         raise ApiServiceError
 
 
@@ -61,7 +62,7 @@ def _parse_openweather_response(openweather_response: str) -> Weather:
         temperature=_parse_temperature(openweather_dict),
         weather_type=_parse_weather_type(openweather_dict),
         sunrise=_parse_sun_time(openweather_dict, 'sunrise'),
-        sunset=_parse_sunset(openweather_dict, 'sunset'),
+        sunset=_parse_sun_time(openweather_dict, 'sunset'),
         city=_parse_city(openweather_dict),
     )
 

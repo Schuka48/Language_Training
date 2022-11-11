@@ -45,7 +45,7 @@ def _parse_coordinates(whereami_output: bytes) -> Coordinates:
 
 
 def _parse_coord(
-        output: str,
+        output: list[str],
         coord_type: Literal['latitude'] | Literal['longitude']) -> float:
     for line in output:
         if line.startswith(f'{coord_type}'):
